@@ -1,0 +1,143 @@
+{
+  "notes": [
+    {
+      "id": "b73f7808-79d5-433b-95d8-3fa7d881640b",
+      "name": "Note 1",
+      "content": "This is the content for note 1.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "8e97c18d-6356-435b-a547-edf4763bc7b8",
+      "name": "Note 2",
+      "content": "This is the content for note 2.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "34051030-36dd-4e40-8ced-b94f360c7fc5",
+      "name": "Note 3",
+      "content": "This is the content for note 3.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "adbf9aeb-74d4-4bd6-b707-3ea08d2d5f37",
+      "name": "Note 4",
+      "content": "This is the content for note 4.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "29ce3a45-4172-473d-b8e1-6a37a969c8f7",
+      "name": "Note 5",
+      "content": "This is the content for note 5.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "519c83a1-a1c2-4e56-9c06-d0d98be33067",
+      "name": "Note 6",
+      "content": "This is the content for note 6.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "1cf81c2f-2b4d-4cde-bee7-24186fce5743",
+      "name": "Note 7",
+      "content": "This is the content for note 7.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "a5e25322-0822-48d3-9da3-58241ff6b013",
+      "name": "Note 8",
+      "content": "This is the content for note 8.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "16aa022c-d5bf-454e-aacb-00567cf44fa9",
+      "name": "Note 9",
+      "content": "This is the content for note 9.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "209dcf74-daf3-468b-8db7-6f04dc1fb195",
+      "name": "Note 10",
+      "content": "This is the content for note 10.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "2be41b86-9883-463d-a89e-2eeef584384b",
+      "name": "Note 11",
+      "content": "This is the content for note 11.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "eaf3cf36-40e9-454e-a95e-63e1d6d06630",
+      "name": "Note 12",
+      "content": "This is the content for note 12.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "2022b113-7aaa-4ed5-afc9-8ef6e8b26a8b",
+      "name": "Note 13",
+      "content": "This is the content for note 13.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "d53078f6-7a35-4d0d-9945-949e95158caa",
+      "name": "Note 14",
+      "content": "This is the content for note 14.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    },
+    {
+      "id": "dfe2bc22-cea3-432d-8ca5-9daec93b919f",
+      "name": "Note 15",
+      "content": "This is the content for note 15.",
+      "createdAt": "17.07.2024, 09:48:17",
+      "updatedAt": "17.07.2024, 09:48:17"
+    }
+  ],
+  "folders": [
+    {
+      "name": "Рецепты",
+      "id": "1",
+      "createdAt": "16.07.2024, 08:51:52",
+      "updatedAt": "16.07.2024, 08:51:52"
+    }
+  ],
+  "users": [
+    {
+      "id": "12a410bc-849f-4e7e-bfc8-4ef283ee4b19",
+      "name": "Jason Miller",
+      "email": "jason@mail.com",
+      "password": "666349420ec497c1dc890c45179d44fb13220239325172af02d1fb6635922956"
+    },
+    {
+      "id": "2b9130d4-47a7-4085-800e-0144f6a46059",
+      "name": "Tiffany Brookston",
+      "email": "tiffy@mail.com",
+      "password": "8a1ea5669b749354110dcba3fac5546c16e6d0f73a37f35a84f6b0d7b3c22fcc"
+    },
+    {
+      "id": "11817fb1-03a1-4b4a-8d27-854ac893cf41",
+      "name": "Catrin Stevenson",
+      "email": "catrin@mail.com",
+      "password": "18eb2d6c5373c94c6d5d707650d02c3c06f33fac557c9cfb8cb1ee625a649ff3"
+    },
+    {
+      "id": "6a89217b-7c28-4219-bd7f-af119c314159",
+      "name": "Greg Bronson",
+      "email": "greg@mail.com",
+      "password": "a6dcde7eceb689142f21a1e30b5fdb868ec4cd25d5537d67ac7e8c7816b0e862"
+    }
+  ]
+}
