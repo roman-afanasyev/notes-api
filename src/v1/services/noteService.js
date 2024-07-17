@@ -1,9 +1,9 @@
 const { v4: uuid } = require('uuid');
 const Note = require('../../database/Note')
 
-const getAllNotes = () => {
+const getAllNotes = (filterParams) => {
   try {
-    return Note.getAllNotes();
+    return Note.getAllNotes(filterParams);
   } catch (e) {
     throw e;
   }

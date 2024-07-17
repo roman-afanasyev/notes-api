@@ -1,9 +1,15 @@
 const DB = require('./db.json');
 const { saveToDatabase } = require('./utils')
 
-const getAllNotes = () => {
+const getAllNotes = (filterParams) => {
   try {
-    return DB.notes;
+    let notes = DB.notes;
+    if (filterParams.name) {
+      return DB.notes.filter(note => note.name
+        .toLowerCase()
+        .includes(filterParams.name.toLowerCase()));
+    }
+    return notes;
   } catch (e) {
     throw { status: 500, message: e };
   }

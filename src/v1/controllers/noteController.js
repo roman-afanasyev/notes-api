@@ -1,8 +1,10 @@
 const noteService = require('../services/noteService');
 
 const getAllNotes = (req, res) => {
+  const { name } = req.query;
+
   try {
-    const allNotes = noteService.getAllNotes();
+    const allNotes = noteService.getAllNotes({ name });
     res.send({ status: 200, data: allNotes });
   } catch (e) {
     res.status(e?.status || 500).send({
