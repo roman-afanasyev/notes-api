@@ -1,14 +1,33 @@
 const DB = require('./db.json');
 const { saveToDatabase } = require('./utils')
 
-const getAllNotes = (filterParams) => {
+const DEFAULT_LIMIT = 10;
+
+const getAllNotes = (filterParams, paginationParams, sort) => {
   try {
     let notes = DB.notes;
     if (filterParams.name) {
-      return DB.notes.filter(note => note.name
+      return notes.filter(note => note.name
         .toLowerCase()
         .includes(filterParams.name.toLowerCase()));
     }
+    if (paginationParams.limit) {
+      return notes.slice(0, paginationParams.limit);
+    }
+    if (paginationParams.page) {
+      const startIndex = (paginationParams.page - 1) * (paginationParams.limit || DEFAULT_LIMIT);
+      const endIndex = startIndex + (paginationParams.limit || DEFAULT_LIMIT)
+      return notes.slice(startIndex, endIndex)
+    }
+    // if (sort) {
+    //   return notes.sort((a, b) => {
+    //     if (sort === 'createdAt' || sort === 'updatedAt') {
+    //       console.log(Date.parse(a[sort]), Date.parse(b[sort]));
+    //       return Date.parse(a[sort]) - Date.parse(b[sort]);
+    //     }
+    //     return a[sort] - b[sort];
+    //   });
+    // }
     return notes;
   } catch (e) {
     throw { status: 500, message: e };
