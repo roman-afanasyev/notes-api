@@ -3,29 +3,29 @@ const { saveToDatabase } = require('./utils')
 
 const DEFAULT_LIMIT = 10;
 
-/**
- * @openapi
- * components:
- *   schemas:
- *     Note:
- *       type: object
- *       properties:
- *         id:
- *           type: string
- *           example: 61dbae02-c147-4e28-863c-db7bd402b2d6
- *         name:
- *           type: string
- *           example: Note Title
- *         content:
- *           type: string
- *           example: Note content 123
- *         createdAt:
- *           type: string
- *           example: 18.07.2024, 08:56:38
- *         updatedAt:
- *           type: string
- *           example: 18.07.2024, 08:56:38
- */
+/*
+   @openapi
+   components:
+     schemas:
+       Note:
+         type: object
+         properties:
+           id:
+             type: string
+             example: 61dbae02-c147-4e28-863c-db7bd402b2d6
+           name:
+             type: string
+             example: Note Title
+           content:
+             type: string
+             example: Note content 123
+           createdAt:
+             type: string
+             example: 18.07.2024, 08:56:38
+           updatedAt:
+             type: string
+             example: 18.07.2024, 08:56:38
+*/
 
 const getAllNotes = (filterParams, paginationParams, sort) => {
   try {
@@ -39,7 +39,7 @@ const getAllNotes = (filterParams, paginationParams, sort) => {
       return notes.slice(0, paginationParams.limit);
     }
     if (paginationParams.page) {
-      const startIndex = (paginationParams.page - 1) * (paginationParams.limit || DEFAULT_LIMIT);
+      const startIndex = (paginationParams.page - 1)   (paginationParams.limit || DEFAULT_LIMIT);
       const endIndex = startIndex + (paginationParams.limit || DEFAULT_LIMIT)
       return notes.slice(startIndex, endIndex)
     }

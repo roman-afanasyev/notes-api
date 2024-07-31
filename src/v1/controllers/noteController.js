@@ -87,6 +87,7 @@ const updateOneNote = (req, res) => {
       },
     });
   }
+  console.log('body', body);
   try {
     const updatedNote = noteService.updateOneNote(
       noteId,
