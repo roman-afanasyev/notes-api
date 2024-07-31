@@ -21,8 +21,8 @@ const createNewNote = (newNote) => {
   const noteToInsert= {
     ...newNote,
     id: uuid(),
-    createdAt: new Date().toLocaleString('ru-RU', { timeZone: 'UTC' }),
-    updatedAt: new Date().toLocaleString('ru-RU', { timeZone: 'UTC' })
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   }
 
   try {
@@ -33,11 +33,14 @@ const createNewNote = (newNote) => {
 }
 
 const updateOneNote = (noteId, changes) => {
-
+  const updatedNote = {
+    ...changes,
+    updatedAt: new Date().toISOString(),
+  }
   try {
     return Note.updateOneNote(
       noteId,
-      changes
+      updatedNote,
     );
   } catch (e) {
     throw e;

@@ -1,10 +1,10 @@
 const noteService = require('../services/noteService');
 
-const getAllNotes = (req, res) => {
+const getAllNotes = async (req, res) => {
   const { name, limit, page, sort } = req.query;
 
   try {
-    const allNotes = noteService.getAllNotes({ name }, { limit, page }, sort);
+    const allNotes = await noteService.getAllNotes({ name }, { limit, page }, sort);
     res.send({ status: 200, data: allNotes });
   } catch (e) {
     res.status(e?.status || 500).send({
@@ -14,7 +14,7 @@ const getAllNotes = (req, res) => {
   }
 };
 
-const getOneNote = (req, res) => {
+const getOneNote = async (req, res) => {
   const {
     params: { noteId },
   } = req;
@@ -29,7 +29,7 @@ const getOneNote = (req, res) => {
   }
 
   try {
-    const note = noteService.getOneNote(noteId);
+    const note = await noteService.getOneNote(noteId);
     res.send({ status: 'OK', data: note });
   } catch (e) {
     res.status(e?.status || 500).send({
@@ -39,7 +39,7 @@ const getOneNote = (req, res) => {
   }
 };
 
-const createNewNote = (req, res) => {
+const createNewNote = async (req, res) => {
   const { body } = req;
 
   if (!body.name) {
@@ -58,7 +58,7 @@ const createNewNote = (req, res) => {
   }
 
   try {
-    const createdNote = noteService.createNewNote(newNote);
+    const createdNote = await noteService.createNewNote(newNote);
 
     res.status(201).send({
       status: 'OK',
@@ -73,7 +73,7 @@ const createNewNote = (req, res) => {
 
 };
 
-const updateOneNote = (req, res) => {
+const updateOneNote = async (req, res) => {
   const {
     body,
     params: { noteId },
@@ -89,7 +89,7 @@ const updateOneNote = (req, res) => {
   }
   console.log('body', body);
   try {
-    const updatedNote = noteService.updateOneNote(
+    const updatedNote = await noteService.updateOneNote(
       noteId,
       body
     );
@@ -102,7 +102,7 @@ const updateOneNote = (req, res) => {
   }
 };
 
-const deleteOneNote = (req, res) => {
+const deleteOneNote = async (req, res) => {
   const {
     params: { noteId },
   } = req;
@@ -116,7 +116,7 @@ const deleteOneNote = (req, res) => {
     });
   }
   try {
-    noteService.deleteOneNote(noteId);
+    await noteService.deleteOneNote(noteId);
     res.status(204).send({ status: 'OK' });
   } catch (e) {
     res.status(e?.status || 500).send({
