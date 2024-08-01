@@ -1,5 +1,5 @@
 const { v4: uuid } = require('uuid');
-const Note = require('../../database/Note')
+const Note = require('../../database/models/Note')
 
 const getAllNotes = (filterParams, paginationParams, sort) => {
   try {
