@@ -55,6 +55,7 @@ const createNewNote = async (req, res) => {
   const newNote = {
     name: body.name,
     content: body.content || '',
+    folderId: body.folderId,
   }
 
   try {

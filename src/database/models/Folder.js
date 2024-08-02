@@ -1,7 +1,17 @@
 const pool = require('../dbPostgresql');
 
 const getAllFolders = async () => {
-  const result = await pool.query('SELECT * FROM folders f INNER JOIN notes n ON n.folder_id = f.id GROUP BY n.folder_id, f.id, n.id');
+  const result = await pool.query(`
+      SELECT 
+        f.*,
+        json_agg(n.*) AS notes -- Собираем все заметки в массив JSON
+      FROM 
+        folders f
+      LEFT JOIN 
+        notes n ON f.id = n.folder_id
+      GROUP BY 
+        f.id; -- Группируем по ID папки, чтобы собрать все заметки в одну группу
+  `);
 
   return result.rows;
 }
