@@ -6,6 +6,7 @@ const pool = require('./database/dbPostgresql');
 const session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const pgSession = require('connect-pg-simple')(session);
 
 const {
   swaggerDocs: V1SwaggerDocs,
@@ -20,10 +21,17 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(session({
-  resave: false,
-  saveUninitialized: true,
+  store: new pgSession({
+    pool, // Подключение к базе данных
+    tableName: 'session', // Имя таблицы для хранения сессий
+    createTableIfMissing: true, // Создать таблицу, если она отсутствует
+    pruneSessionInterval: 24 * 60 * 60 // Интервал очистки просроченных сессий
+  }),
   secret: 'my super secret word kgb',
-}))
+  resave: false,
+  saveUninitialized: false
+}));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -71,6 +79,14 @@ app.get('/home', (req, res) => {
   res.send(userProfile);
 })
 app.get('/error', (req, res) => res.send("Log in first"))
+
+app.get('/logout', (req, res, next) => {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    userProfile = undefined;
+    res.redirect('/');
+  });
+});
 
 pool.query('SELECT NOW()', (err, res) => {
   if(err) {
