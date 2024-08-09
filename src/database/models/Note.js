@@ -1,7 +1,7 @@
 const pool = require('../dbPostgresql');
 
-const getAllNotes = async () => {
-  const result = await pool.query('SELECT * FROM notes');
+const getAllNotes = async (userId) => {
+  const result = await pool.query('SELECT * FROM notes WHERE user_id = $1', [userId]);
 
   return result.rows;
 }
@@ -13,11 +13,11 @@ const getOneNote = async (noteId) => {
 }
 
 const createNewNote = async (newNote) => {
-  const { id, createdAt, updatedAt, name, content, folderId } = newNote;
+  const { id, createdAt, updatedAt, name, content, folderId, userId } = newNote;
   console.log(folderId);
   const result = await pool.query(
-    'INSERT INTO notes (name, content, id, created_at, updated_at, folder_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-    [name, content, id, createdAt, updatedAt, folderId]
+    'INSERT INTO notes (name, content, id, created_at, updated_at, folder_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+    [name, content, id, createdAt, updatedAt, folderId, userId]
   );
 
   return result.rows[0];

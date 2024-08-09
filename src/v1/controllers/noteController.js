@@ -2,9 +2,10 @@ const noteService = require('../services/noteService');
 
 const getAllNotes = async (req, res) => {
   const { name, limit, page, sort } = req.query;
+  const userId = req.session.passport.user.id;
 
   try {
-    const allNotes = await noteService.getAllNotes({ name }, { limit, page }, sort);
+    const allNotes = await noteService.getAllNotes(userId, { name }, { limit, page }, sort);
     res.send({ status: 200, data: allNotes });
   } catch (e) {
     res.status(e?.status || 500).send({
@@ -56,6 +57,7 @@ const createNewNote = async (req, res) => {
     name: body.name,
     content: body.content || '',
     folderId: body.folderId,
+    userId: body.userId,
   }
 
   try {

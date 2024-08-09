@@ -29,7 +29,7 @@ app.use(session({
   }),
   secret: 'my super secret word kgb',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true,
 }));
 
 
@@ -75,7 +75,6 @@ app.get('/auth/google/callback',
   });
 
 app.get('/home', (req, res) => {
-  console.log(userProfile);
   res.send(userProfile);
 })
 app.get('/error', (req, res) => res.send("Log in first"))
@@ -83,6 +82,7 @@ app.get('/error', (req, res) => res.send("Log in first"))
 app.get('/logout', (req, res, next) => {
   req.logout(function(err) {
     if (err) { return next(err); }
+    req.session.destroy();
     userProfile = undefined;
     res.redirect('/');
   });
