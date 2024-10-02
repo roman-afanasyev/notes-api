@@ -13,21 +13,20 @@ const getOneNote = async (noteId) => {
 }
 
 const createNewNote = async (newNote) => {
-  const { id, createdAt, updatedAt, name, content, folderId, userId } = newNote;
-  console.log(folderId);
+  const { id, createdAt, updatedAt, title, content, folderId, userId } = newNote;
   const result = await pool.query(
-    'INSERT INTO notes (name, content, id, created_at, updated_at, folder_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-    [name, content, id, createdAt, updatedAt, folderId, userId]
+    'INSERT INTO notes (title, content, id, created_at, updated_at, folder_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+    [title, content, id, createdAt, updatedAt, folderId, userId]
   );
 
   return result.rows[0];
 }
 
 const updateOneNote = async (noteId, changes) => {
-  const { updatedAt, name, content, folderId } = changes;
+  const { updatedAt, title, content, folderId } = changes;
   const result = await pool.query(
-    'UPDATE notes SET name = $1, content = $2, updated_at = $3, folder_id = $4 WHERE id = $5 RETURNING *',
-    [name, content, updatedAt, folderId, noteId]
+    'UPDATE notes SET title = $1, content = $2, updated_at = $3, folder_id = $4 WHERE id = $5 RETURNING *',
+    [title, content, updatedAt, folderId, noteId]
   )
 
   return result.rows[0];

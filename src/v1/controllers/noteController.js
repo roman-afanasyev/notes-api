@@ -1,11 +1,9 @@
 const noteService = require('../services/noteService');
 
-const getAllNotes = async (req, res) => {
-  const { name, limit, page, sort } = req.query;
-  const userId = req.session.passport.user.id;
 
+const getAllNotes = async (req, res) => {
   try {
-    const allNotes = await noteService.getAllNotes(userId, { name }, { limit, page }, sort);
+    const allNotes = await noteService.getAllNotes(req.userId);
     res.send({ status: 200, data: allNotes });
   } catch (e) {
     res.status(e?.status || 500).send({
@@ -19,6 +17,7 @@ const getOneNote = async (req, res) => {
   const {
     params: { noteId },
   } = req;
+
   if (!noteId) {
     res.status(400).send({
       status: 'FAILED',
@@ -41,23 +40,23 @@ const getOneNote = async (req, res) => {
 };
 
 const createNewNote = async (req, res) => {
-  const { body } = req;
+  const { body, userId } = req;
 
-  if (!body.name) {
+  if (!body.title) {
     res.status(400).send({
       status: 'FAILED',
       data: {
         error:
-          'Отсутствует поле "name"',
+          'Отсутствует поле "title"',
       },
     });
   }
 
   const newNote = {
-    name: body.name,
+    title: body.title,
     content: body.content || '',
     folderId: body.folderId,
-    userId: body.userId,
+    userId,
   }
 
   try {
@@ -73,7 +72,6 @@ const createNewNote = async (req, res) => {
       data: { error: e?.message || e },
     });
   }
-
 };
 
 const updateOneNote = async (req, res) => {
@@ -90,7 +88,6 @@ const updateOneNote = async (req, res) => {
       },
     });
   }
-  console.log('body', body);
   try {
     const updatedNote = await noteService.updateOneNote(
       noteId,

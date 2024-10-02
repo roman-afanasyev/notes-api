@@ -1,9 +1,9 @@
 const { v4: uuid } = require('uuid');
 const Note = require('../../database/models/Note')
 
-const getAllNotes = (userId, filterParams, paginationParams, sort) => {
+const getAllNotes = (userId) => {
   try {
-    return Note.getAllNotes(userId, filterParams, paginationParams, sort);
+    return Note.getAllNotes(userId);
   } catch (e) {
     throw e;
   }
