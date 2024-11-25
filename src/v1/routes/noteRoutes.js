@@ -1,5 +1,6 @@
 const express = require('express');
 const apicache = require('apicache');
+const jwt = require('jsonwebtoken');
 
 const {
   getAllNotes,
@@ -9,8 +10,26 @@ const {
   createNewNote
 }  = require('../controllers/noteController');
 
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1]; // Извлечение токена из заголовка
+  if (!token) {
+    return res.status(401).json({ message: 'Нет авторизации' });
+  }
+  console.log(req.body);
+  try {
+    const JWT_SECRET = process.env.JWT_SECRET; // Замените на свой секретный ключ
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.userId = decoded.id; // Добавляем информацию о пользователе в req.user
+    next(); // Продолжаем обработку запроса
+  } catch (err) {
+    return res.status(401).json({ message: 'Недействительный токен' });
+  }
+};
+
 const router = express.Router();
 const cache = apicache.middleware;
+
+router.use(authMiddleware);
 
 /**
  * @openapi

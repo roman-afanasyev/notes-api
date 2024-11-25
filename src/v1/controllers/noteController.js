@@ -1,10 +1,9 @@
 const noteService = require('../services/noteService');
 
-const getAllNotes = (req, res) => {
-  const { name, limit, page, sort } = req.query;
 
+const getAllNotes = async (req, res) => {
   try {
-    const allNotes = noteService.getAllNotes({ name }, { limit, page }, sort);
+    const allNotes = await noteService.getAllNotes(req.userId);
     res.send({ status: 200, data: allNotes });
   } catch (e) {
     res.status(e?.status || 500).send({
@@ -14,10 +13,11 @@ const getAllNotes = (req, res) => {
   }
 };
 
-const getOneNote = (req, res) => {
+const getOneNote = async (req, res) => {
   const {
     params: { noteId },
   } = req;
+
   if (!noteId) {
     res.status(400).send({
       status: 'FAILED',
@@ -29,7 +29,7 @@ const getOneNote = (req, res) => {
   }
 
   try {
-    const note = noteService.getOneNote(noteId);
+    const note = await noteService.getOneNote(noteId);
     res.send({ status: 'OK', data: note });
   } catch (e) {
     res.status(e?.status || 500).send({
@@ -39,26 +39,28 @@ const getOneNote = (req, res) => {
   }
 };
 
-const createNewNote = (req, res) => {
-  const { body } = req;
+const createNewNote = async (req, res) => {
+  const { body, userId } = req;
 
-  if (!body.name) {
+  if (!body.title) {
     res.status(400).send({
       status: 'FAILED',
       data: {
         error:
-          'Отсутствует поле "name"',
+          'Отсутствует поле "title"',
       },
     });
   }
 
   const newNote = {
-    name: body.name,
+    title: body.title,
     content: body.content || '',
+    folderId: body.folderId,
+    userId,
   }
 
   try {
-    const createdNote = noteService.createNewNote(newNote);
+    const createdNote = await noteService.createNewNote(newNote);
 
     res.status(201).send({
       status: 'OK',
@@ -70,10 +72,9 @@ const createNewNote = (req, res) => {
       data: { error: e?.message || e },
     });
   }
-
 };
 
-const updateOneNote = (req, res) => {
+const updateOneNote = async (req, res) => {
   const {
     body,
     params: { noteId },
@@ -87,9 +88,8 @@ const updateOneNote = (req, res) => {
       },
     });
   }
-  console.log('body', body);
   try {
-    const updatedNote = noteService.updateOneNote(
+    const updatedNote = await noteService.updateOneNote(
       noteId,
       body
     );
@@ -102,7 +102,7 @@ const updateOneNote = (req, res) => {
   }
 };
 
-const deleteOneNote = (req, res) => {
+const deleteOneNote = async (req, res) => {
   const {
     params: { noteId },
   } = req;
@@ -116,7 +116,7 @@ const deleteOneNote = (req, res) => {
     });
   }
   try {
-    noteService.deleteOneNote(noteId);
+    await noteService.deleteOneNote(noteId);
     res.status(204).send({ status: 'OK' });
   } catch (e) {
     res.status(e?.status || 500).send({
