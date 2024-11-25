@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const v1NoteRouter = require('./v1/routes/noteRoutes');
 const v1FolderRouter = require('./v1/routes/folderRoutes');
 const pool = require('./database/dbPostgresql');
@@ -8,6 +7,8 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const pgSession = require('connect-pg-simple')(session);
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+const userService = require('./v1/services/userService');
 
 const {
   swaggerDocs: V1SwaggerDocs,
@@ -66,9 +67,49 @@ const generateToken = (user) => {
   return token;
 };
 
+const findOrCreateUser = async (userId, payload) => {
+  const userData = { id: userId, ...payload}
+
+  const foundUser = await userService.getOneUser(userData.id);
+
+  if (!foundUser) {
+    return await userService.createNewUser(userData);
+  }
+
+  return foundUser;
+
+}
+
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+
 // Авторизация через Google
-app.get('/auth/google',
-  passport.authenticate('google', { scope : ['profile', 'email'] }));
+app.post('/auth/google', async (req, res) => {
+  try {
+    const { idToken } = req.body;
+
+  // Верифицируем idToken с помощью Google API
+    const ticket = await client.verifyIdToken({
+      idToken: idToken,
+      audience: GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const userId = payload['sub'];
+
+    // Находим или создаем пользователя в базе данных
+    const user = await findOrCreateUser(userId, payload);
+
+    console.log(user);
+
+    // Генерируем JWT
+    const jwtToken = generateToken({ id: user.id });
+
+    res.json({ token: jwtToken });
+  } catch (error) {
+    console.error('Error verifying ID token:', error);
+    res.status(401).json({ message: 'Invalid token' }); // Отправляем ошибку, если токен недействителен
+  }
+});
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/error' }),
@@ -80,20 +121,6 @@ app.get('/auth/google/callback',
     res.redirect('/home');
   });
 
-app.get('/home', (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Извлечение токена из заголовка
-  console.log(req.cookies, req.headers.authorization);
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      res.send({ message: 'Успешная авторизация', user: decoded });
-    } catch (err) {
-      res.send({ message: 'Недействительный токен' });
-    }
-  } else {
-    res.send({ message: 'Токен не найден' });
-  }
-});
 
 // Выход
 app.get('/logout', (req, res) => {
